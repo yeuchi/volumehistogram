@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Module:			VolumeHistogramDemo
+
+Description:	Demo for color volume histogram
+
+Input:			- image 
+				
+Output:			- color histogram 
+				- rotational plot of color values.
+				- highlight of mouse over color pixel on Original image.
+				
+Author(s):		- CT Yeung
+				
+History:
+31Aug08			binary tree and display completed			(cty)
+28Sep08			working on spin capability, need scaling & offset.	(cty)
+-->
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" 				
+				xmlns:comp="com.*"
+				layout="absolute"
+				width="100%" height="100%"
+				horizontalScrollPolicy="off"
+				verticalScrollPolicy="off"
+				horizontalAlign="center" 
+			    verticalAlign="top"
+				creationComplete="onCreationComplete()" viewSourceURL="srcview/index.html">
+				
+	<mx:Script>
+		<![CDATA[
+			[Bindable][Embed(source="/assets/genenMarc.jpg")]public var photoClass1:Class;
+			[Bindable][Embed(source="/assets/billnMarc.jpg")]public var photoClass2:Class;
+			[Bindable][Embed(source="/assets/colortarget.png")]public var photoClass3:Class;
+			[Bindable] protected var bmpData:BitmapData;
+			[Bindable] protected var comboList:Array;
+			
+			// --------------------------------------------------------------------------
+			public function onCreationComplete():void 
+			// --------------------------------------------------------------------------
+			{
+				comboList = new Array();
+				comboList.push("Gene and Marc");
+				comboList.push("Bill and Marc");
+				comboList.push("Color target");
+				onChangeCombo();
+			}
+			
+			protected function onChangeCombo():void 
+			{
+				switch (combo.selectedIndex)
+				{
+					case 1:
+					bmpData = new photoClass2().bitmapData;
+					break;
+					
+					case 2:
+					bmpData = new photoClass3().bitmapData;
+					break;
+					
+					default:
+					case 0:
+					bmpData = new photoClass1().bitmapData;
+					break;
+					
+				}
+				image.source = new Bitmap(bmpData);
+				if( volumeHist.define(bmpData) )
+					volumeHist.drawInit();
+			}
+			
+			// --------------------------------------------------------------------------
+			// image has changed
+			protected function onHighlight():void 
+			// --------------------------------------------------------------------------
+			{
+				image.source = new Bitmap(volumeHist.bmpResult);
+			}
+			
+			// --------------------------------------------------------------------------
+			// image has changed
+			protected function onRefresh():void 
+			// --------------------------------------------------------------------------
+			{
+				image.source = new Bitmap(bmpData);
+			}
+			
+		]]>
+	</mx:Script>
+	
+	<mx:Canvas x="200" y="10">
+		<mx:VBox horizontalAlign="center">
+			<mx:ComboBox id="combo" prompt="Select Photo" dataProvider="{comboList}" change="onChangeCombo()"/>
+			<mx:Image id="image"/>
+			<comp:VolumeHistogram id="volumeHist" highlight="onHighlight()" endHighlight="onRefresh()"/>
+		</mx:VBox>
+		
+	</mx:Canvas>
+</mx:Application>
