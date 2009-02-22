@@ -1,0 +1,257 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>BinaryTree.as</title>
+<link rel="stylesheet" type="text/css" href="../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="ActionScriptComment">// ------------------------------------------------------------------
+</span><span class="ActionScriptComment">//Module:            BinaryTree
+</span><span class="ActionScriptComment">//
+</span><span class="ActionScriptComment">//Description:        histogram of color values
+</span><span class="ActionScriptComment">//
+</span><span class="ActionScriptComment">//Input:            pixel color
+</span><span class="ActionScriptComment">//                
+</span><span class="ActionScriptComment">//Output:            a histogram list of color and count
+</span><span class="ActionScriptComment">//                
+</span><span class="ActionScriptComment">//Author(s):        - CT Yeung
+</span><span class="ActionScriptComment">//                
+</span><span class="ActionScriptComment">//History:
+</span><span class="ActionScriptComment">//31Aug08            binary tree and display completed            (cty)
+</span><span class="ActionScriptComment">//28Sep08            working on spin capability, need scaling &amp; offset.    (cty)
+</span><span class="ActionScriptComment">// ------------------------------------------------------------------
+</span><span class="ActionScriptpackage">package</span> <span class="ActionScriptDefault_Text">com</span>
+<span class="ActionScriptBracket/Brace">{</span>
+    <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">flash</span>.<span class="ActionScriptDefault_Text">geom</span>.<span class="ActionScriptDefault_Text">Point</span>;
+    
+    <span class="ActionScriptReserved">public</span> <span class="ActionScriptclass">class</span> <span class="ActionScriptDefault_Text">BinaryTree</span>
+    <span class="ActionScriptBracket/Brace">{</span>
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">leftBranch</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">BinaryTree</span>;
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">rightBranch</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">BinaryTree</span>;
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">color</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">uint</span>;
+        <span class="ActionScriptReserved">protected</span> <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">iCount</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">int</span><span class="ActionScriptOperator">=</span>0;
+        
+<span class="ActionScriptComment">///////////////////////////////////////////////////////////////////////////////
+</span><span class="ActionScriptComment">// Construct
+</span>
+        <span class="ActionScriptComment">// --------------------------------------------------------------------
+</span>        <span class="ActionScriptComment">// Construct
+</span>        <span class="ActionScriptComment">// --------------------------------------------------------------------
+</span>        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">BinaryTree</span><span class="ActionScriptBracket/Brace">()</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptComment">// --------------------------------------------------------------------
+</span>        <span class="ActionScriptComment">// empty just this instance, not left nor right
+</span>        <span class="ActionScriptComment">// --------------------------------------------------------------------
+</span>        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">emptyNode</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">color</span> <span class="ActionScriptOperator">=</span> 0;
+            <span class="ActionScriptDefault_Text">iCount</span> <span class="ActionScriptOperator">=</span> 0;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptComment">// --------------------------------------------------------------------
+</span>        <span class="ActionScriptComment">// just this node...
+</span>        <span class="ActionScriptComment">// --------------------------------------------------------------------
+</span>        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">isNodeEmpty</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Boolean</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">iCount</span><span class="ActionScriptOperator">==</span>0<span class="ActionScriptBracket/Brace">)</span>
+                <span class="ActionScriptReserved">return</span> <span class="ActionScriptReserved">true</span>;
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptReserved">false</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptComment">// --------------------------------------------------------------------
+</span>        <span class="ActionScriptComment">// recursive delete
+</span>        <span class="ActionScriptComment">// --------------------------------------------------------------------
+</span>        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">emptyTree</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptReserved">void</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptDefault_Text">color</span> <span class="ActionScriptOperator">=</span> 0;
+            <span class="ActionScriptDefault_Text">iCount</span> <span class="ActionScriptOperator">=</span> 0;
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">leftBranch</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptDefault_Text">leftBranch</span>.<span class="ActionScriptDefault_Text">emptyTree</span><span class="ActionScriptBracket/Brace">()</span>;
+                <span class="ActionScriptDefault_Text">leftBranch</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">null</span>;
+            <span class="ActionScriptBracket/Brace">}</span>
+            
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">rightBranch</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptDefault_Text">rightBranch</span>.<span class="ActionScriptDefault_Text">emptyTree</span><span class="ActionScriptBracket/Brace">()</span>;
+                <span class="ActionScriptDefault_Text">rightBranch</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">null</span>;
+            <span class="ActionScriptBracket/Brace">}</span>
+        <span class="ActionScriptBracket/Brace">}</span>
+
+        <span class="ActionScriptComment">// --------------------------------------------------------------------
+</span>        <span class="ActionScriptComment">// is this tree empty ?
+</span>        <span class="ActionScriptComment">// --------------------------------------------------------------------
+</span>        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">isTreeEmpty</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Boolean</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">((</span> <span class="ActionScriptDefault_Text">iCount</span><span class="ActionScriptOperator">==</span>0 <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">&amp;&amp;</span>
+               <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptOperator">!</span><span class="ActionScriptDefault_Text">leftBranch</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptOperator">&amp;&amp;</span>
+               <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptOperator">!</span><span class="ActionScriptDefault_Text">rightBranch</span> <span class="ActionScriptBracket/Brace">))</span>
+               <span class="ActionScriptReserved">return</span> <span class="ActionScriptReserved">true</span>;
+               
+           <span class="ActionScriptReserved">return</span> <span class="ActionScriptReserved">false</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+
+<span class="ActionScriptComment">///////////////////////////////////////////////////////////////////////////////
+</span><span class="ActionScriptComment">// Public functions        
+</span>        
+        <span class="ActionScriptComment">// --------------------------------------------------------------------
+</span>        <span class="ActionScriptComment">// recursive insert() function
+</span>        <span class="ActionScriptComment">// --------------------------------------------------------------------
+</span>        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">insert</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">clr</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">uint</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Boolean</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">iCount</span> <span class="ActionScriptOperator">==</span> 0 <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptDefault_Text">color</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">clr</span>;
+                <span class="ActionScriptDefault_Text">iCount</span> <span class="ActionScriptOperator">=</span> 1;
+                <span class="ActionScriptReserved">return</span> <span class="ActionScriptReserved">true</span>;
+            <span class="ActionScriptBracket/Brace">}</span>
+                
+            <span class="ActionScriptReserved">else</span> <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">clr</span> <span class="ActionScriptOperator">&lt;</span> <span class="ActionScriptDefault_Text">color</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptOperator">!</span><span class="ActionScriptDefault_Text">leftBranch</span> <span class="ActionScriptBracket/Brace">)</span>
+                    <span class="ActionScriptDefault_Text">leftBranch</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">BinaryTree</span><span class="ActionScriptBracket/Brace">()</span>;
+                    
+                <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">leftBranch</span>.<span class="ActionScriptDefault_Text">insert</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">clr</span><span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptBracket/Brace">}</span>
+                
+            <span class="ActionScriptReserved">else</span> <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">clr</span> <span class="ActionScriptOperator">&gt;</span> <span class="ActionScriptDefault_Text">color</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(!</span><span class="ActionScriptDefault_Text">rightBranch</span> <span class="ActionScriptBracket/Brace">)</span>
+                    <span class="ActionScriptDefault_Text">rightBranch</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">BinaryTree</span><span class="ActionScriptBracket/Brace">()</span>;
+                    
+                <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">rightBranch</span>.<span class="ActionScriptDefault_Text">insert</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">clr</span><span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptBracket/Brace">}</span>
+                
+            <span class="ActionScriptDefault_Text">iCount</span> <span class="ActionScriptOperator">++</span>;
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptReserved">true</span>;            
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptComment">// --------------------------------------------------------------------
+</span>        <span class="ActionScriptComment">// sorted by assending order... so 1st is the smallest
+</span>        <span class="ActionScriptComment">// --------------------------------------------------------------------
+</span>        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">getFirst</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">uint</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">leftBranch</span><span class="ActionScriptBracket/Brace">)</span>
+                <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">leftBranch</span>.<span class="ActionScriptDefault_Text">getFirst</span><span class="ActionScriptBracket/Brace">()</span>;
+            
+            <span class="ActionScriptReserved">else</span> <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">iCount</span> <span class="ActionScriptOperator">&gt;</span> 0 <span class="ActionScriptBracket/Brace">)</span>
+                <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">color</span>;
+                
+            <span class="ActionScriptReserved">else</span> 
+                <span class="ActionScriptReserved">return</span> 0;
+        <span class="ActionScriptBracket/Brace">}</span>    
+        
+        <span class="ActionScriptComment">// --------------------------------------------------------------------
+</span>        <span class="ActionScriptComment">// sorted by assending order... so last is the largest
+</span>        <span class="ActionScriptComment">// --------------------------------------------------------------------
+</span>        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">getLast</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">uint</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">rightBranch</span><span class="ActionScriptBracket/Brace">)</span>
+                <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">rightBranch</span>.<span class="ActionScriptDefault_Text">getLast</span><span class="ActionScriptBracket/Brace">()</span>;
+                
+            <span class="ActionScriptReserved">else</span> <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">iCount</span> <span class="ActionScriptOperator">&gt;</span> 0 <span class="ActionScriptBracket/Brace">)</span>
+                <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">color</span>;
+                
+            <span class="ActionScriptReserved">else</span>
+                <span class="ActionScriptReserved">return</span> 0;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptComment">// --------------------------------------------------------------------
+</span>        <span class="ActionScriptComment">// Find this color entry in tree and return count
+</span>        <span class="ActionScriptComment">// --------------------------------------------------------------------
+</span>        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">getColor</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">clr</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">uint</span><span class="ActionScriptBracket/Brace">)</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">int</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">clr</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptDefault_Text">color</span> <span class="ActionScriptBracket/Brace">)</span>
+                <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">iCount</span>;
+                
+            <span class="ActionScriptReserved">else</span> <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">clr</span> <span class="ActionScriptOperator">&lt;</span> <span class="ActionScriptDefault_Text">color</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">leftBranch</span> <span class="ActionScriptBracket/Brace">)</span>
+                    <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">leftBranch</span>.<span class="ActionScriptDefault_Text">getColor</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">clr</span><span class="ActionScriptBracket/Brace">)</span>;
+                
+                <span class="ActionScriptReserved">return</span> 0;
+            <span class="ActionScriptBracket/Brace">}</span>
+            
+            <span class="ActionScriptReserved">else</span> <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">clr</span> <span class="ActionScriptOperator">&gt;</span> <span class="ActionScriptDefault_Text">color</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">rightBranch</span> <span class="ActionScriptBracket/Brace">)</span>
+                    <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">rightBranch</span>.<span class="ActionScriptDefault_Text">getColor</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">clr</span><span class="ActionScriptBracket/Brace">)</span>;
+                    
+                <span class="ActionScriptReserved">return</span> 0;
+            <span class="ActionScriptBracket/Brace">}</span>
+            <span class="ActionScriptReserved">return</span> 0;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptComment">// --------------------------------------------------------------------
+</span>        <span class="ActionScriptComment">// get the next entry, use after calling getFirst()
+</span>        <span class="ActionScriptComment">// *** Need to use pointer for count... *** will not work as is.
+</span>        <span class="ActionScriptComment">// --------------------------------------------------------------------
+</span>        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">getAscend</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">index</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">int</span>,    <span class="ActionScriptComment">// [in] index to seek
+</span>                                  <span class="ActionScriptDefault_Text">count</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">int</span><span class="ActionScriptBracket/Brace">)</span>    <span class="ActionScriptComment">// [out] current index in tree
+</span>                                  <span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">uint</span>            <span class="ActionScriptComment">// [out] color at index seeked
+</span>        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">clr</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">uint</span>;
+            
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">leftBranch</span> <span class="ActionScriptBracket/Brace">)</span> <span class="ActionScriptBracket/Brace">{</span>
+                <span class="ActionScriptDefault_Text">clr</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">leftBranch</span>.<span class="ActionScriptDefault_Text">getAscend</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">index</span>, <span class="ActionScriptDefault_Text">count</span><span class="ActionScriptBracket/Brace">)</span>;
+                <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">clr</span> <span class="ActionScriptOperator">&gt;=</span> 0 <span class="ActionScriptBracket/Brace">)</span>
+                    <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">clr</span>;
+            <span class="ActionScriptBracket/Brace">}</span>
+            
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">index</span> <span class="ActionScriptOperator">==</span> <span class="ActionScriptDefault_Text">count</span> <span class="ActionScriptBracket/Brace">)</span> 
+                <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">color</span>;
+                
+            <span class="ActionScriptDefault_Text">count</span> <span class="ActionScriptOperator">++</span>;
+            
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">rightBranch</span> <span class="ActionScriptBracket/Brace">)</span>    
+                <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">rightBranch</span>.<span class="ActionScriptDefault_Text">getAscend</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">index</span>, <span class="ActionScriptDefault_Text">count</span><span class="ActionScriptBracket/Brace">)</span>;
+                
+            <span class="ActionScriptReserved">return</span> 0;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+        <span class="ActionScriptComment">// --------------------------------------------------------------------
+</span>        <span class="ActionScriptComment">// returns all entries sorted in an array
+</span>        <span class="ActionScriptComment">// --------------------------------------------------------------------
+</span>        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptDefault_Text">getAll</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Array</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">list</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Array</span>;
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">list2</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Array</span>;
+            
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">leftBranch</span> <span class="ActionScriptBracket/Brace">)</span>
+                <span class="ActionScriptDefault_Text">list</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">leftBranch</span>.<span class="ActionScriptDefault_Text">getAll</span><span class="ActionScriptBracket/Brace">()</span>;
+                
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">rightBranch</span> <span class="ActionScriptBracket/Brace">)</span>
+                <span class="ActionScriptDefault_Text">list2</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">rightBranch</span>.<span class="ActionScriptDefault_Text">getAll</span><span class="ActionScriptBracket/Brace">()</span>;
+                
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">entry</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">Array</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Array</span><span class="ActionScriptBracket/Brace">()</span>;
+            <span class="ActionScriptDefault_Text">entry</span>.<span class="ActionScriptDefault_Text">push</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">color</span><span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptDefault_Text">entry</span>.<span class="ActionScriptDefault_Text">push</span> <span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptReserved">this</span>.<span class="ActionScriptDefault_Text">iCount</span><span class="ActionScriptBracket/Brace">)</span>;
+            
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptOperator">!</span><span class="ActionScriptDefault_Text">list</span> <span class="ActionScriptBracket/Brace">)</span> 
+                <span class="ActionScriptDefault_Text">list</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptReserved">new</span> <span class="ActionScriptDefault_Text">Array</span><span class="ActionScriptBracket/Brace">()</span>;
+                
+            <span class="ActionScriptDefault_Text">list</span>.<span class="ActionScriptDefault_Text">push</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">entry</span><span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">list2</span> <span class="ActionScriptBracket/Brace">)</span>
+                <span class="ActionScriptDefault_Text">list</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">list</span>.<span class="ActionScriptDefault_Text">concat</span><span class="ActionScriptBracket/Brace">(</span><span class="ActionScriptDefault_Text">list2</span><span class="ActionScriptBracket/Brace">)</span>;
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">list</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+        
+<span class="ActionScriptComment">///////////////////////////////////////////////////////////////////////////////
+</span><span class="ActionScriptComment">// Properties
+</span>        
+        <span class="ActionScriptComment">// --------------------------------------------------------------------
+</span>        <span class="ActionScriptComment">// returns number of entries
+</span>        <span class="ActionScriptComment">// --------------------------------------------------------------------
+</span>        <span class="ActionScriptReserved">public</span> <span class="ActionScriptfunction">function</span> <span class="ActionScriptReserved">get</span> <span class="ActionScriptDefault_Text">count</span><span class="ActionScriptBracket/Brace">()</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">int</span>
+        <span class="ActionScriptBracket/Brace">{</span>
+            <span class="ActionScriptvar">var</span> <span class="ActionScriptDefault_Text">num</span><span class="ActionScriptOperator">:</span><span class="ActionScriptDefault_Text">int</span><span class="ActionScriptOperator">=</span>0;
+            
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">leftBranch</span> <span class="ActionScriptBracket/Brace">)</span>
+                <span class="ActionScriptDefault_Text">num</span> <span class="ActionScriptOperator">=</span> <span class="ActionScriptDefault_Text">leftBranch</span>.<span class="ActionScriptDefault_Text">count</span>;
+                
+            <span class="ActionScriptReserved">if</span> <span class="ActionScriptBracket/Brace">(</span> <span class="ActionScriptDefault_Text">rightBranch</span> <span class="ActionScriptBracket/Brace">)</span>
+                <span class="ActionScriptDefault_Text">num</span> <span class="ActionScriptOperator">+=</span> <span class="ActionScriptDefault_Text">rightBranch</span>.<span class="ActionScriptDefault_Text">count</span>;
+                
+            <span class="ActionScriptReserved">return</span> <span class="ActionScriptDefault_Text">num</span> <span class="ActionScriptOperator">++</span>;
+        <span class="ActionScriptBracket/Brace">}</span>
+    <span class="ActionScriptBracket/Brace">}</span>
+<span class="ActionScriptBracket/Brace">}</span></pre></body>
+</html>
