@@ -38,6 +38,7 @@
 package volumeHistogram.com
 {
 	import flash.display.Bitmap;
+	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.geom.Point;
 	
@@ -72,6 +73,7 @@ package volumeHistogram.com
 			onInitArrow(imgRight, rightClass, "right", new Point(width/3*2, height/3));
 			onInitArrow(imgUp, upClass, "up", new Point(width/3, 0));
 			onInitArrow(imgDown, downClass, "down", new Point(width/3, height/3*2));
+			this.addEventListener(Event.ENTER_FRAME, onEnterFrame, false, 0, true);
 		}
 		
 		protected function onInitArrow(	img:Image,
@@ -93,7 +95,6 @@ package volumeHistogram.com
 			img.y = pos.y;
 		}		  
 		
-		
 		protected function onMouseDown(e:MouseEvent):void
 		{
 			var img:Image = e.currentTarget as Image;
@@ -102,16 +103,28 @@ package volumeHistogram.com
 			dispatchEvent(new Event("rotateClicked"));
 		}
 		
+		protected var onBtn:Boolean = false;
+		protected var mouseEvent:MouseEvent = null;
+		
 		protected function onRollOver(e:MouseEvent):void
 		{
 			var img:Image = e.currentTarget as Image;
 			img.alpha = .8;
+			mouseEvent = e;
+			onBtn = true;
+		}
+		
+		protected function onEnterFrame(e:Event):void {
+			if(onBtn)
+				onMouseDown(mouseEvent);
 		}
 		
 		protected function onRollOut(e:MouseEvent):void
 		{
 			var img:Image = e.currentTarget as Image;
 			img.alpha = 1;
+			mouseEvent = null;
+			onBtn = false;
 		}
 	}
 
