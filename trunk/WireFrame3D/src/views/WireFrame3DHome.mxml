@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+Module:			WireFrame3D
+Description:	Experiment of 3D rendering for mobile application.
+				This probably cannot be published.  
+				It might be considered conflict of interest as I am 
+				currently doing 3D rendering for Jostens.  However, it 
+				serves an excellent exercise for the new and exciting 
+				mobile development.  This maybe of value to Jostens at a 
+				later date.
+
+Author(s):		C.T. Yeung
+
+History:			
+25Dec10 		1st functional on Christmas!					
+				Although the rotation UI is some what buggy 	cty
+-->
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		title="WireFrame3D"
+		creationComplete="onCreationComplete()" xmlns:views="views.*" xmlns:mx="library://ns.adobe.com/flex/mx">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			protected function onCreationComplete():void {
+				uic.width = width;
+				uic.height = height;
+				uic.init();
+			}
+			
+			protected var rotateSpeed:Number = 2;
+			
+			protected function onRotate():void {
+				switch(ctrlSpin.direction) {
+					case RotateControl.DIRECT_DOWN:
+						uic.rotateX(-rotateSpeed);
+						break;
+					
+					case RotateControl.DIRECT_UP:
+						uic.rotateX(rotateSpeed);
+						break;
+					
+					case RotateControl.DIRECT_LEFT:
+						uic.rotateY(-rotateSpeed);
+						break;
+					
+					case RotateControl.DIRECT_RIGHT:
+						uic.rotateY(rotateSpeed);
+						break;
+				}
+				labelX.text = "x: "+uic.xR.toString();
+				labelY.text = "y: "+uic.yR.toString();
+				labelZ.text = "z: "+uic.zR.toString();
+			}
+			
+			protected function onClickUndo():void {
+				uic.undo();
+			}
+			
+			protected function onClickClear():void {
+				uic.clear();
+				labelX.text = "x: 0";
+				labelX.text = "y: 0";
+				labelX.text = "z: 0";
+			}
+		]]>
+	</fx:Script>
+	
+	<views:SketchBoard id="uic" width="100%" height="100%"/>
+	
+	<s:VGroup width="100%" height="100%" verticalAlign="bottom" horizontalAlign="left">
+		<s:HGroup verticalAlign="middle">
+			<mx:Spacer width="10"/>
+			<views:RotateControl id="ctrlSpin" 
+							 rotateClicked="onRotate()" 
+							 width="{RotateControl.WIDTH}" height="{RotateControl.WIDTH}"/>
+			<s:VGroup>
+				<s:TextInput id="labelX" text="x: 0" width="70" fontSize="12" alpha=".5"/>
+				<s:TextInput id="labelY" text="y: 0" width="70" fontSize="12" alpha=".5"/>
+				<s:TextInput id="labelZ" text="z: 0" width="70" fontSize="12" alpha=".5"/>
+			</s:VGroup>
+			<mx:Spacer width="30"/>
+			<s:VGroup>
+				<s:Button id="btnUndo" label="undo" click="onClickUndo()"/>
+				<s:Button id="btnClear" label="clear" click="onClickClear()"/>
+			</s:VGroup>
+		</s:HGroup>
+		<mx:Spacer height="10"/>
+	</s:VGroup>
+</s:View>
