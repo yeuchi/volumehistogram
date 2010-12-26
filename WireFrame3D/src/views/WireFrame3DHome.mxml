@@ -77,9 +77,9 @@ History:
 							 rotateClicked="onRotate()" 
 							 width="{RotateControl.WIDTH}" height="{RotateControl.WIDTH}"/>
 			<s:VGroup>
-				<s:TextInput id="labelX" text="x: 0" width="70" fontSize="12" alpha=".5"/>
-				<s:TextInput id="labelY" text="y: 0" width="70" fontSize="12" alpha=".5"/>
-				<s:TextInput id="labelZ" text="z: 0" width="70" fontSize="12" alpha=".5"/>
+				<s:TextInput id="labelX" text="x: 0" width="110" fontSize="22" alpha=".5"/>
+				<s:TextInput id="labelY" text="y: 0" width="110" fontSize="22" alpha=".5"/>
+				<s:TextInput id="labelZ" text="z: 0" width="110" fontSize="22" alpha=".5"/>
 			</s:VGroup>
 			<mx:Spacer width="30"/>
 			<s:VGroup>

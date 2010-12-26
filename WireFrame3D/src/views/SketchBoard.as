@@ -47,8 +47,8 @@ package views
 			Multitouch.inputMode = MultitouchInputMode.GESTURE;
 			this.addEventListener(TransformGestureEvent.GESTURE_ROTATE, onRotateZ, false, 0, true);
 			this.addEventListener(TransformGestureEvent.GESTURE_ZOOM, onZoom, false, 0, true);
-			//this.addEventListener(MouseEvent.DOUBLE_CLICK, onDoubleClick, false, 0, true);
-			this.addEventListener(MouseEvent.CLICK, onClick, false, 0, true);
+			this.addEventListener(MouseEvent.DOUBLE_CLICK, onDoubleClick, false, 0, true);
+			//this.addEventListener(MouseEvent.CLICK, onClick, false, 0, true);
 		}
 		
 		public function undo():void {
@@ -113,23 +113,24 @@ package views
 		public function init():void {
 			this.graphics.beginFill(0xFFFFFF);
 			this.graphics.drawRect(0,0,width, height);
-			this.graphics.beginFill(0xFF);
-			this.graphics.drawCircle(width/2, height/2, 4);
+			this.graphics.beginFill(0xFFFFFF);
+			this.graphics.lineStyle(2, 0xFF);
+			this.graphics.drawCircle(width/2, height/2, 10);
 			this.graphics.endFill();
 		}
 		
-		protected function onClick(e:MouseEvent):void {
+		protected function onDoubleClick(e:MouseEvent):void {
 			var v:Vector3D = new Vector3D(e.localX-width/2.0, 
 										  e.localY-height/2.0, 
 										  zDepth);
 			v = mesh.rotate(-xR, -yR, -zR, v);
 			mesh.push(v.x, v.y, v.z);
 			
-			this.graphics.lineStyle(1, 0xFF0000);
-			this.graphics.drawCircle(e.localX, e.localY, 2);
+			this.graphics.lineStyle(2, 0xFF0000);
+			this.graphics.drawCircle(e.localX, e.localY, 4);
 			
 			if(mesh.length>1) {
-				this.graphics.lineStyle(1, 0xFF00);
+				this.graphics.lineStyle(3, 0xFF00);
 				this.graphics.moveTo(pLast.x, pLast.y);
 				this.graphics.lineTo(e.localX, e.localY);
 			}
