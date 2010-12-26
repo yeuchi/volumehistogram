@@ -29,6 +29,7 @@ package views
 		public function Mesh()
 		{
 			vector = new Vector.<Number>();
+			vout = new Vector.<Number>();
 		}
 		
 		public function dispose():void {
@@ -90,7 +91,6 @@ package views
 							   		y:Number,
 							   		z:Number)
 									:Boolean {
-			vout = new Vector.<Number>();
 			var matrix:Matrix3D = getMatrix(x,y,z);
 			if(!matrix)
 				return false;
