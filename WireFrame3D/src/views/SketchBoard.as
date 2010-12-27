@@ -29,13 +29,22 @@ package views
 	
 	public class SketchBoard extends UIComponent
 	{
-		// need to add vanishing point in order to work well with scaling.
-		
 		protected var mesh:Mesh;
 		protected var pLast:Point;
-		public var zDepth:Number = 0;		// need to calculate base on zoom
-		public var scale:Number = 1;			
+		public var zDepth:Number = 0;
+		public var scale:Number = 1;
+		public var xR:Number=0;
+		public var yR:Number=0;
+		public var zR:Number=0;
+		protected var zoom:Number=1;
 		protected var block:Boolean;
+		
+		// cross hair
+		protected var vL:Vector3D;
+		protected var vR:Vector3D;
+		protected var vT:Vector3D;
+		protected var vB:Vector3D;
+		static protected const CROSS_HAIR_LEN:int= 30;
 		
 		public function SketchBoard()
 		{
@@ -43,55 +52,51 @@ package views
 			mesh = new Mesh();
 			pLast = new Point();
 			
+			// cross hair
+			vL = new Vector3D(-CROSS_HAIR_LEN, 0, 0);
+			vR = new Vector3D(CROSS_HAIR_LEN, 0, 0);
+			vT = new Vector3D(0, -CROSS_HAIR_LEN, 0);
+			vB = new Vector3D(0, CROSS_HAIR_LEN, 0);
+			
 			Multitouch.inputMode = MultitouchInputMode.GESTURE;
 			this.addEventListener(TransformGestureEvent.GESTURE_ROTATE, onRotateZ, false, 0, true);
 			this.addEventListener(TransformGestureEvent.GESTURE_ZOOM, onZoom, false, 0, true);
-			// double click do not always work for some builds.
-			// but single click conflicts with multi-touch controls.
 			this.addEventListener(MouseEvent.CLICK, onClick, false, 0, true);
-		}
-		
-		public function get xR():Number {
-			return mesh.x;
-		}
-		
-		public function get yR():Number {
-			return mesh.y;
-		}
-		
-		public function get zR():Number {
-			return mesh.z;
 		}
 		
 		public function undo():void {
 			mesh.pop();
 			if(mesh.length) 
-				mesh.rotateAll();
+				mesh.rotateAll(xR, yR, zR);
 			render();
 		}
 		
 		public function clear():void {
 			mesh.dispose();
+			xR = yR = zR = 0;
 			pLast.x = pLast.y = 0;
 			render();
 		}
 		
 		public function rotateX(value:Number):void {
-			mesh.appendRotation(value, 0, 0);
-			mesh.rotateAll();
-			render();
+			xR += value;
+			if(mesh.rotateAll(xR, yR, zR))
+				render();
 		}
 		
 		public function rotateY(value:Number):void {
-			mesh.appendRotation(0, value, 0);
-			mesh.rotateAll();
+			yR += value;
+			if(mesh.rotateAll(xR, yR, zR))
 			render();
 		}
 		
+		// for now, we will consider this a multi-touch function
+		// need to determine the correct axis to manipulate
 		protected function onRotateZ(e:TransformGestureEvent):void {
-			mesh.appendRotation(0, 0, e.rotation);
-			mesh.rotateAll();
+			zR += e.rotation;
+			if(mesh.rotateAll(xR, yR, zR))
 			render();
+			
 			block = true;
 		}
 		
@@ -120,12 +125,27 @@ package views
 		protected function onZoom(e:TransformGestureEvent):void {
 			scale *= e.scaleX;
 			render();
+			
 			block = true;
 		}
 		
 		public function init():void {
+			// fill background
 			this.graphics.beginFill(0xFFFFFF);
 			this.graphics.drawRect(0,0,width, height);
+			
+			// draw cross-hair
+			var vl:Vector3D = mesh.rotate(xR, yR, zR, vL);
+			var vr:Vector3D = mesh.rotate(xR, yR, zR, vR);
+			var vt:Vector3D = mesh.rotate(xR, yR, zR, vT);
+			var vb:Vector3D = mesh.rotate(xR, yR, zR, vB);
+			this.graphics.lineStyle(2, 0xFF);
+			this.graphics.moveTo(vl.x*scale+width/2.0, vl.y*scale+height/2.0);
+			this.graphics.lineTo(vr.x*scale+width/2.0, vr.y*scale+height/2.0);
+			this.graphics.moveTo(vt.x*scale+width/2.0, vt.y*scale+height/2.0);
+			this.graphics.lineTo(vb.x*scale+width/2.0, vb.y*scale+height/2.0);
+			
+			// draw center reference
 			this.graphics.beginFill(0xFFFFFF);
 			this.graphics.lineStyle(2, 0xFF);
 			this.graphics.drawCircle(width/2, height/2, 10);
@@ -140,7 +160,7 @@ package views
 			var v:Vector3D = new Vector3D(e.localX-width/2.0, 
 										  e.localY-height/2.0, 
 										  zDepth);
-			v = mesh.rotate(-mesh.x, -mesh.y, -mesh.z, v);
+			v = mesh.rotate(-xR, -yR, -zR, v);
 			mesh.push(v.x, v.y, v.z);
 			
 			this.graphics.lineStyle(2, 0xFF0000);
