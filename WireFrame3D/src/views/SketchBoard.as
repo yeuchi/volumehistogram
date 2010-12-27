@@ -31,12 +31,10 @@ package views
 	{
 		protected var mesh:Mesh;
 		protected var pLast:Point;
-		public var zDepth:Number = 0;
 		public var scale:Number = 1;
 		public var xR:Number=0;
 		public var yR:Number=0;
 		public var zR:Number=0;
-		protected var zoom:Number=1;
 		protected var block:Boolean;
 		
 		// cross hair
@@ -159,7 +157,7 @@ package views
 			}
 			var v:Vector3D = new Vector3D(e.localX-width/2.0, 
 										  e.localY-height/2.0, 
-										  zDepth);
+										  0);
 			v = mesh.rotate(-xR, -yR, -zR, v);
 			mesh.push(v.x, v.y, v.z);
 			
