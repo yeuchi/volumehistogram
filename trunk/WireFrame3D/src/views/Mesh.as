@@ -25,28 +25,17 @@ package views
 	{
 		public var vector:Vector.<Number>;
 		public var vout:Vector.<Number>;
-		protected var matrix:Matrix3D;
-		
-		public var x:Number;
-		public var y:Number;
-		public var z:Number;
 		
 		public function Mesh()
 		{
 			vector = new Vector.<Number>();
 			vout = new Vector.<Number>();
-			matrix = new Matrix3D();
-			x = y = z = 0;
 		}
 		
 		public function dispose():void {
 			while(vector.length)
 				vector.pop();
-			
-			while(vout.length)
-				vout.pop();
-			
-			x = y = z = 0;
+			vout = null;
 		}
 		
 		public function get length():int {
@@ -68,47 +57,45 @@ package views
 			return new Vector3D(x,y,z);
 		}
 		
-		public function rotate(xR:Number,
-							   yR:Number,
-							   zR:Number,
+		public function rotate(x:Number,
+							   y:Number,
+							   z:Number,
 							   v:Vector3D)
 							   :Vector3D {
-		   if(!xR&&!yR&&!zR)
+		   if(!x&&!y&&!z)
 			   return v;
 		  
-		   var matrix:Matrix3D = new Matrix3D();
-		   if(xR)
-			   matrix.appendRotation(xR, Vector3D.X_AXIS);
-		   
-		   if(yR)
-			   matrix.appendRotation(yR, Vector3D.Y_AXIS);
-		   
-		   if(zR)
-			   matrix.appendRotation(zR, Vector3D.Z_AXIS);
-		   
-		   return matrix.transformVector(v);
+		   var matrix:Matrix3D = getMatrix(x,y,z);
+		   return (matrix)?matrix.transformVector(v):null;
 		}
 		
-		public function appendRotation(	xR:Number,
-									  	yR:Number,
-									  	zR:Number)
-										:void {
-			if(xR)
-				matrix.appendRotation(xR, Vector3D.X_AXIS);
+		protected function getMatrix(x:Number,
+									 y:Number,
+									 z:Number)
+									:Matrix3D {
+			var matrix:Matrix3D = new Matrix3D();
+			if(x)
+				matrix.appendRotation(x, Vector3D.X_AXIS);
 			
-			if(yR)
-				matrix.appendRotation(yR, Vector3D.Y_AXIS);
+			if(y)
+				matrix.appendRotation(y, Vector3D.Y_AXIS);
 			
-			if(zR)
-				matrix.appendRotation(zR, Vector3D.Z_AXIS);
-			
-			x += xR;
-			y += yR;
-			z += zR;
+			if(z)
+				matrix.appendRotation(z, Vector3D.Z_AXIS);
+			return matrix;
 		}
+									
 		
-		public function rotateAll():void {
+		public function rotateAll(	x:Number,
+							   		y:Number,
+							   		z:Number)
+									:Boolean {
+			var matrix:Matrix3D = getMatrix(x,y,z);
+			if(!matrix)
+				return false;
+			
 			matrix.transformVectors(vector, vout);
+			return true;
 		}
 	}
 }

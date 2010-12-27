@@ -24,17 +24,16 @@ History:
 	</fx:Declarations>
 	<fx:Script>
 		<![CDATA[
+			protected var rotateSpeed:Number = 2;
+
 			protected function onCreationComplete():void {
 				uic.width = width;
 				uic.height = height;
 				uic.init();
 			}
 			
-			protected var rotateSpeed:Number = 1;
-			
+			// need to calculate the the correct axis to manipulate
 			protected function onRotate():void {
-				// need to figure out which axis we are rotating
-				// base on existing rotation.
 				switch(ctrlSpin.direction) {
 					case RotateControl.DIRECT_DOWN:
 						uic.rotateX(-rotateSpeed);
@@ -64,8 +63,8 @@ History:
 			protected function onClickClear():void {
 				uic.clear();
 				labelX.text = "x: 0";
-				labelX.text = "y: 0";
-				labelX.text = "z: 0";
+				labelY.text = "y: 0";
+				labelZ.text = "z: 0";
 			}
 		]]>
 	</fx:Script>
