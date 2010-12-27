@@ -63,6 +63,7 @@ package views
 		
 		protected var center:Point;
 		public var direction:String;
+		protected var clickEvent:Event;
 		
 		static public const DIRECT_LEFT:String = "DIRECT_LEFT";
 		static public const DIRECT_RIGHT:String = "DIRECT_RIGHT";
@@ -72,6 +73,7 @@ package views
 		public function RotateControl()
 		{
 			width = height = WIDTH;
+			clickEvent = new Event("rotateClicked");
 			onInitArrow(uiLeft, leftClass, DIRECT_LEFT, new Point(0, height/3));
 			onInitArrow(uiRight, rightClass, DIRECT_RIGHT, new Point(width/3*2, height/3));
 			onInitArrow(uiUp, upClass, DIRECT_UP, new Point(width/3, 0));
@@ -105,7 +107,7 @@ package views
 		protected var bDown:Boolean = false;
 		protected function onEnterFrame(e:Event):void {
 			if(bDown) 
-				dispatchEvent(new Event("rotateClicked"));
+				dispatchEvent(clickEvent);
 		}
 		
 		protected function onMouseDown(e:MouseEvent):void
@@ -114,7 +116,6 @@ package views
 			var ui:UIComponent = e.currentTarget as UIComponent;
 			ui.alpha = .2;
 			direction = ui.id;
-			dispatchEvent(new Event("rotateClicked"));
 		}
 		
 		protected function onRollOver(e:MouseEvent):void

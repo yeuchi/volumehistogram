@@ -2,12 +2,6 @@
 //	Module:			SketchBoard.as
 //
 //	Description:	Experiment of 3D rendering for mobile application.
-//					This probably cannot be published.  
-//					It might be considered conflict of interest as I am 
-//					currently doing 3D rendering for Jostens.  However, it 
-//					serves an excellent exercise for the new and exciting 
-//					mobile development.  This maybe of value to Jostens at a 
-//					later date.
 //	
 //	Author(s):		C.T. Yeung
 //
