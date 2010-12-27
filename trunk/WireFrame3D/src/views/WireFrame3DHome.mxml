@@ -30,9 +30,11 @@ History:
 				uic.init();
 			}
 			
-			protected var rotateSpeed:Number = 2;
+			protected var rotateSpeed:Number = 1;
 			
 			protected function onRotate():void {
+				// need to figure out which axis we are rotating
+				// base on existing rotation.
 				switch(ctrlSpin.direction) {
 					case RotateControl.DIRECT_DOWN:
 						uic.rotateX(-rotateSpeed);

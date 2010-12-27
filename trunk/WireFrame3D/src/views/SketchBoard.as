@@ -29,14 +29,13 @@ package views
 	
 	public class SketchBoard extends UIComponent
 	{
+		// need to add vanishing point in order to work well with scaling.
+		
 		protected var mesh:Mesh;
 		protected var pLast:Point;
-		public var zDepth:Number = 0;
-		public var scale:Number = 1;
-		public var xR:Number=0;
-		public var yR:Number=0;
-		public var zR:Number=0;
-		protected var zoom:Number=1;
+		public var zDepth:Number = 0;		// need to calculate base on zoom
+		public var scale:Number = 1;			
+		protected var block:Boolean;
 		
 		public function SketchBoard()
 		{
@@ -47,40 +46,53 @@ package views
 			Multitouch.inputMode = MultitouchInputMode.GESTURE;
 			this.addEventListener(TransformGestureEvent.GESTURE_ROTATE, onRotateZ, false, 0, true);
 			this.addEventListener(TransformGestureEvent.GESTURE_ZOOM, onZoom, false, 0, true);
-			this.addEventListener(MouseEvent.DOUBLE_CLICK, onDoubleClick, false, 0, true);
-			//this.addEventListener(MouseEvent.CLICK, onClick, false, 0, true);
+			// double click do not always work for some builds.
+			// but single click conflicts with multi-touch controls.
+			this.addEventListener(MouseEvent.CLICK, onClick, false, 0, true);
+		}
+		
+		public function get xR():Number {
+			return mesh.x;
+		}
+		
+		public function get yR():Number {
+			return mesh.y;
+		}
+		
+		public function get zR():Number {
+			return mesh.z;
 		}
 		
 		public function undo():void {
 			mesh.pop();
 			if(mesh.length) 
-				mesh.rotateAll(xR, yR, zR);
+				mesh.rotateAll();
 			render();
 		}
 		
 		public function clear():void {
 			mesh.dispose();
-			xR = yR = zR = 0;
 			pLast.x = pLast.y = 0;
 			render();
 		}
 		
 		public function rotateX(value:Number):void {
-			xR += value;
-			if(mesh.rotateAll(xR, yR, zR))
-				render();
+			mesh.appendRotation(value, 0, 0);
+			mesh.rotateAll();
+			render();
 		}
 		
 		public function rotateY(value:Number):void {
-			yR += value;
-			if(mesh.rotateAll(xR, yR, zR))
+			mesh.appendRotation(0, value, 0);
+			mesh.rotateAll();
 			render();
 		}
 		
 		protected function onRotateZ(e:TransformGestureEvent):void {
-			zR += e.rotation;
-			if(mesh.rotateAll(xR, yR, zR))
+			mesh.appendRotation(0, 0, e.rotation);
+			mesh.rotateAll();
 			render();
+			block = true;
 		}
 		
 		public function render():void {
@@ -108,6 +120,7 @@ package views
 		protected function onZoom(e:TransformGestureEvent):void {
 			scale *= e.scaleX;
 			render();
+			block = true;
 		}
 		
 		public function init():void {
@@ -119,11 +132,15 @@ package views
 			this.graphics.endFill();
 		}
 		
-		protected function onDoubleClick(e:MouseEvent):void {
+		protected function onClick(e:MouseEvent):void {
+			if(block) {
+				block = false;
+				return;
+			}
 			var v:Vector3D = new Vector3D(e.localX-width/2.0, 
 										  e.localY-height/2.0, 
 										  zDepth);
-			v = mesh.rotate(-xR, -yR, -zR, v);
+			v = mesh.rotate(-mesh.x, -mesh.y, -mesh.z, v);
 			mesh.push(v.x, v.y, v.z);
 			
 			this.graphics.lineStyle(2, 0xFF0000);
