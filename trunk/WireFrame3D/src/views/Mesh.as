@@ -25,11 +25,15 @@ package views
 	{
 		public var vector:Vector.<Number>;
 		public var vout:Vector.<Number>;
+		protected var matrix:Matrix3D;
+		protected var mv:Vector.<Vector3D>;
 		
 		public function Mesh()
 		{
 			vector = new Vector.<Number>();
 			vout = new Vector.<Number>();
+			matrix = new Matrix3D();
+			mv = matrix.decompose();
 		}
 		
 		public function dispose():void {
@@ -65,15 +69,16 @@ package views
 		   if(!x&&!y&&!z)
 			   return v;
 		  
-		   var matrix:Matrix3D = getMatrix(x,y,z);
-		   return (matrix)?matrix.transformVector(v):null;
+		   setMatrix(x,y,z);
+		   var v:Vector3D = matrix.transformVector(v);
+		   matrix.recompose(mv);
+		   return v;
 		}
 		
-		protected function getMatrix(x:Number,
+		protected function setMatrix(x:Number,
 									 y:Number,
 									 z:Number)
-									:Matrix3D {
-			var matrix:Matrix3D = new Matrix3D();
+									:void {
 			if(x)
 				matrix.appendRotation(x, Vector3D.X_AXIS);
 			
@@ -82,7 +87,6 @@ package views
 			
 			if(z)
 				matrix.appendRotation(z, Vector3D.Z_AXIS);
-			return matrix;
 		}
 									
 		
@@ -90,11 +94,9 @@ package views
 							   		y:Number,
 							   		z:Number)
 									:Boolean {
-			var matrix:Matrix3D = getMatrix(x,y,z);
-			if(!matrix)
-				return false;
-			
+			setMatrix(x,y,z);
 			matrix.transformVectors(vector, vout);
+			matrix.recompose(mv);
 			return true;
 		}
 	}
