@@ -1,0 +1,1 @@
+#define FLOYD_STEINBERG "floyd steinberg"
