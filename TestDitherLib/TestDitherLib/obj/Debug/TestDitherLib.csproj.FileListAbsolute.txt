@@ -1,0 +1,8 @@
+D:\Dev\C++\TestDitherLib\TestDitherLib\obj\Debug\ResolveAssemblyReference.cache
+D:\Dev\C++\TestDitherLib\TestDitherLib\obj\Debug\TestDitherLib.Properties.Resources.resources
+D:\Dev\C++\TestDitherLib\TestDitherLib\obj\Debug\TestDitherLib.csproj.GenerateResource.Cache
+D:\Dev\C++\TestDitherLib\TestDitherLib\bin\Debug\TestDitherLib.exe
+D:\Dev\C++\TestDitherLib\TestDitherLib\bin\Debug\TestDitherLib.pdb
+D:\Dev\C++\TestDitherLib\TestDitherLib\obj\Debug\TestDitherLib.exe
+D:\Dev\C++\TestDitherLib\TestDitherLib\obj\Debug\TestDitherLib.pdb
+D:\Dev\C++\TestDitherLib\TestDitherLib\obj\Debug\TestDitherLib.Form1.resources
