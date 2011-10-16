@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"
+				xmlns:services="service.*"
+				creationComplete="onCreationComplete()" horizontalScrollPolicy="off"
+				layout="absolute" verticalScrollPolicy="off" viewSourceURL="srcview/index.html">
+	
+	<mx:Script>
+		<![CDATA[
+
+			[Bindable][Embed(source="assets/teeth-0001.jpg")]public var cty0:Class;
+			[Bindable][Embed(source="assets/teeth-0002.jpg")]public var cty1:Class;
+			[Bindable][Embed(source="assets/teeth-0003.jpg")]public var cty2:Class;
+			[Bindable][Embed(source="assets/teeth-0004.jpg")]public var cty3:Class;
+			[Bindable][Embed(source="assets/teeth-0005.jpg")]public var cty4:Class;
+			[Bindable][Embed(source="assets/teeth-0006.jpg")]public var cty5:Class;
+			[Bindable][Embed(source="assets/teeth-0007.jpg")]public var cty6:Class;
+			[Bindable][Embed(source="assets/teeth-0008.jpg")]public var cty7:Class;
+			[Bindable][Embed(source="assets/teeth-0009.jpg")]public var cty8:Class;
+			[Bindable][Embed(source="assets/teeth-0010.jpg")]public var cty9:Class;
+			[Bindable][Embed(source="assets/teeth-0011.jpg")]public var cty10:Class;
+			[Bindable][Embed(source="assets/teeth-0012.jpg")]public var cty11:Class;
+			[Bindable][Embed(source="assets/teeth-0013.jpg")]public var cty12:Class;
+			[Bindable][Embed(source="assets/teeth-0014.jpg")]public var cty13:Class;
+			[Bindable][Embed(source="assets/teeth-0015.jpg")]public var cty14:Class;
+			[Bindable][Embed(source="assets/teeth-0016.jpg")]public var cty15:Class;
+			[Bindable][Embed(source="assets/teeth-0017.jpg")]public var cty16:Class;
+			[Bindable][Embed(source="assets/teeth-0018.jpg")]public var cty17:Class;
+			[Bindable][Embed(source="assets/teeth-0019.jpg")]public var cty18:Class;
+		
+			protected var imgList:Array;
+			protected var index:uint=0;
+			
+			protected function onCreationComplete():void
+			{
+				img.buttonMode=true;
+				img.useHandCursor=true;
+				imgList = new Array();
+				imgList.push(new cty0().bitmapData);
+				imgList.push(new cty1().bitmapData);
+				imgList.push(new cty2().bitmapData);
+				imgList.push(new cty3().bitmapData);
+				imgList.push(new cty4().bitmapData);
+				imgList.push(new cty5().bitmapData);
+				imgList.push(new cty6().bitmapData);
+				imgList.push(new cty7().bitmapData);
+				imgList.push(new cty8().bitmapData);
+				imgList.push(new cty9().bitmapData);
+				imgList.push(new cty10().bitmapData);
+				imgList.push(new cty11().bitmapData);
+				imgList.push(new cty12().bitmapData);
+				imgList.push(new cty13().bitmapData);
+				imgList.push(new cty14().bitmapData);
+				imgList.push(new cty15().bitmapData);
+				imgList.push(new cty16().bitmapData);
+				imgList.push(new cty17().bitmapData);
+				imgList.push(new cty18().bitmapData);
+				index = 14;
+				img.source = new Bitmap(imgList[index]);
+				pLast = new Point(300, 0);
+			}
+			
+			protected var pLast:Point;
+			protected function onMouseMove(e:MouseEvent):void {
+				if(bDown) {
+					if((e.localX-pLast.x)>2) {
+						index = (index>0)?index-1:imgList.length-1;
+						img.source = new Bitmap(imgList[index]);
+						pLast.x = e.localX;
+					}
+					else if ((e.localX-pLast.x)<-2) {
+						index = (index<(imgList.length-1))?index+1:0;
+						img.source = new Bitmap(imgList[index]);
+						pLast.x = e.localX;
+					}
+				}
+			}
+			
+			protected var bDown:Boolean=false;
+			protected function onMouseUp():void {
+				bDown = false;
+			}
+
+			protected function onMouseDown():void {
+				bDown = true;
+			}
+		]]>
+	</mx:Script>
+	
+	<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="middle">
+		<mx:Label text="Happy Halloween !"/>
+		<mx:Image id="img" 
+				  mouseDown="onMouseDown()" 
+				  mouseMove="onMouseMove(event)"
+				  mouseUp="onMouseUp()"/>
+		<mx:Label text="mouse-down, drag left or right over my teeth to rotate"/>
+	</mx:VBox>
+	
+</mx:Application>
