@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<index>
+	<title>Source of Teeth</title>
+	<nodes>
+		<node label="html-template">
+			<node label="history">
+				<node icon="cssIcon" label="history.css" url="source/html-template/history/history.css.html"/>
+				<node label="history.js" url="source/html-template/history/history.js.txt"/>
+				<node icon="htmlIcon" label="historyFrame.html" url="source/html-template/history/historyFrame.html"/>
+			</node>
+			<node label="AC_OETags.js" url="source/html-template/AC_OETags.js.txt"/>
+			<node icon="htmlIcon" label="index.template.html" url="source/html-template/index.template.html"/>
+			<node icon="swfIcon" label="playerProductInstall.swf" url="source/html-template/playerProductInstall.swf"/>
+		</node>
+		<node label="libs">
+		</node>
+		<node label="src">
+			<node label="assets">
+				<node icon="imageIcon" label="teeth-0001.jpg" url="source/assets/teeth-0001.jpg.html"/>
+				<node icon="imageIcon" label="teeth-0002.jpg" url="source/assets/teeth-0002.jpg.html"/>
+				<node icon="imageIcon" label="teeth-0003.jpg" url="source/assets/teeth-0003.jpg.html"/>
+				<node icon="imageIcon" label="teeth-0004.jpg" url="source/assets/teeth-0004.jpg.html"/>
+				<node icon="imageIcon" label="teeth-0005.jpg" url="source/assets/teeth-0005.jpg.html"/>
+				<node icon="imageIcon" label="teeth-0006.jpg" url="source/assets/teeth-0006.jpg.html"/>
+				<node icon="imageIcon" label="teeth-0007.jpg" url="source/assets/teeth-0007.jpg.html"/>
+				<node icon="imageIcon" label="teeth-0008.jpg" url="source/assets/teeth-0008.jpg.html"/>
+				<node icon="imageIcon" label="teeth-0009.jpg" url="source/assets/teeth-0009.jpg.html"/>
+				<node icon="imageIcon" label="teeth-0010.jpg" url="source/assets/teeth-0010.jpg.html"/>
+				<node icon="imageIcon" label="teeth-0011.jpg" url="source/assets/teeth-0011.jpg.html"/>
+				<node icon="imageIcon" label="teeth-0012.jpg" url="source/assets/teeth-0012.jpg.html"/>
+				<node icon="imageIcon" label="teeth-0013.jpg" url="source/assets/teeth-0013.jpg.html"/>
+				<node icon="imageIcon" label="teeth-0014.jpg" url="source/assets/teeth-0014.jpg.html"/>
+				<node icon="imageIcon" label="teeth-0015.jpg" url="source/assets/teeth-0015.jpg.html"/>
+				<node icon="imageIcon" label="teeth-0016.jpg" url="source/assets/teeth-0016.jpg.html"/>
+				<node icon="imageIcon" label="teeth-0017.jpg" url="source/assets/teeth-0017.jpg.html"/>
+				<node icon="imageIcon" label="teeth-0018.jpg" url="source/assets/teeth-0018.jpg.html"/>
+				<node icon="imageIcon" label="teeth-0019.jpg" url="source/assets/teeth-0019.jpg.html"/>
+				<node icon="imageIcon" label="X2790329.JPG" url="source/assets/X2790329.JPG.html"/>
+			</node>
+			<node icon="mxmlAppIcon" selected="true" label="ConeHead.mxml" url="source/ConeHead.mxml.html"/>
+			<node label="Planes.t3d" url="source/Planes.t3d"/>
+		</node>
+	</nodes>
+	<zipfile label="Download source (ZIP, 1555K)" url="Teeth.zip">
+	</zipfile>
+	<sdklink label="Download Flex SDK" url="http://www.adobe.com/go/flex4_sdk_download">
+	</sdklink>
+</index>
